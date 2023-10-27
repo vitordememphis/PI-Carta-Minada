@@ -10,8 +10,13 @@ public class SceneHandler : MonoBehaviour
         SceneManager.LoadScene("GameScene");
 
         //Resetando a quantidade de dois e três para o próximo jogo
+        GameManager.instance.twoFlipped = 0;
+        GameManager.instance.threeFlipped = 0;
+
+
         GameManager.instance.twoCount = 0;
         GameManager.instance.threeCount = 0;
+
     }
 
     public void QuitGame()

@@ -18,8 +18,11 @@ public class CardController : MonoBehaviour
     // cardSlot é a posição na tela que a carta será colocada
     public Transform cardSlot;
 
-    // carText é o texto da carta
+    // cardText é o texto da carta
     public TMP_Text cardText;
+
+    //bombImage é a imagem de bomba
+    public GameObject bombImage;
 
     // cardNumber é o número da carta
     public int cardNumber;
@@ -51,6 +54,7 @@ public class CardController : MonoBehaviour
         //Sorteando o número da carta
         GenerateNumber();
         cardFront.SetActive(false);
+
         //Posicionando a carta no lugar certo da tela
         cardBack.transform.position = cardSlot.position;
         cardFront.transform.position = cardSlot.position;
@@ -100,7 +104,7 @@ public class CardController : MonoBehaviour
                             GameManager.instance.threeFlipped++;
                         }
 
-                        //Se todos os dois e três forma encontrados, fim de jogo
+                        //Se todos os dois e três foram encontrados, fim de jogo
                         if (GameManager.instance.twoFlipped == GameManager.instance.twoCount && GameManager.instance.threeFlipped == GameManager.instance.threeCount)
                         {
                             GameManager.instance.gameOver = true;
@@ -117,10 +121,6 @@ public class CardController : MonoBehaviour
             Invoke("GameOver", 2f);
             StopCoroutine(FlipCard());
         }
-
-
-        //Se todos os dois e três forma encontrados, fim de jogo
-
     }
 
 // Gerador de números aleatórios pra carta Bomba - 30%; 1 - 50%; 2 - 10%; 3 - 10%
@@ -131,6 +131,9 @@ public class CardController : MonoBehaviour
         if(randomNumber <= 5)
         {
             cardNumber = 1;
+
+            //Comando pra fazer o número sorteado aparecer em texo na carta virada
+            cardText.SetText(cardNumber.ToString());
         }
         else if(randomNumber > 5 && randomNumber <= 8)
         {
@@ -141,14 +144,19 @@ public class CardController : MonoBehaviour
             cardNumber = 2;
             //Fazendo a contagem de dois no jogo
             GameManager.instance.twoCount++;
+
+            //Comando pra fazer o número sorteado aparecer em texo na carta virada
+            cardText.SetText(cardNumber.ToString());
         }
         else if(randomNumber == 10)
         {
             cardNumber = 3;
             //Fazendo a contagem de três no jogo
             GameManager.instance.threeCount++;
+
+            //Comando pra fazer o número sorteado aparecer em texo na carta virada
+            cardText.SetText(cardNumber.ToString());
         }
-        cardText.SetText(cardNumber.ToString());
     }
 
 // Função pra virar a carta e revelar seu número
@@ -165,6 +173,12 @@ public class CardController : MonoBehaviour
                 {
                     cardFront.SetActive(true);
                     cardBack.SetActive(false);
+
+                    //Se o número for dierente de zero, inativa a imagem da bomba
+                    if (cardNumber != 0)
+                    {
+                        bombImage.SetActive(false);
+                    }
                 }
                 yield return new WaitForSeconds(0.01f);
             }

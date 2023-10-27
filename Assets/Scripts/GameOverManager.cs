@@ -27,24 +27,24 @@ public class GameOverManager : MonoBehaviour
             if (GameManager.instance.levelComplete)
             {
                 gameOverObject.SetActive(true);
-                Invoke("ActivateCanvasLevelComplete", 4f);
+                Invoke("ActivateCanvasLevelComplete", 3f);
             }
             else
             {
                 gameOverObject.SetActive(true);
-                Invoke("ActivateCanvasGameOver", 4f);
+                Invoke("ActivateCanvasGameOver",4f);
             }    
         }
     }
 
-    //Corrotina do alpha do canvas (não funciona)
+    //Corrotina do alpha do canvas
     private IEnumerator ShowGameOverCanvas()
     {
-        for(float i = 0; i <= 1; i += 0.01f)
+        while(gameOverCanvas.alpha < 1)
         {
-            gameOverCanvas.alpha += i;
+            gameOverCanvas.alpha += 0.01f;
+            yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(0.1f);
     }
 
     //Função pra começar a corrotina quando perde o jogo
@@ -59,6 +59,6 @@ public class GameOverManager : MonoBehaviour
     void ActivateCanvasLevelComplete()
     {
         StartCoroutine(ShowGameOverCanvas());
-        gameOverText.text = "PARABÉNS";
+        gameOverText.text = "PARABENS";
     }
 }

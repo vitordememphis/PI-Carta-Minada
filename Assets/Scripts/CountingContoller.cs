@@ -28,6 +28,6 @@ public class CountingContoller : MonoBehaviour
             }
         }
 
-        rowColumnText.text = pointsCount.ToString("00") + "\n" + "B:" + bombCount.ToString("00");
+        rowColumnText.text = pointsCount.ToString("00") + "\n" + ":" + bombCount.ToString("00");
     }
 }
